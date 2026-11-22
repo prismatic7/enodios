@@ -1,0 +1,16 @@
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        "*": ref-pin
+
+  # Accepted risk, not an oversight: the release workflows restore a package
+  # cache and then publish a runtime artifact from the same job. A PR cannot
+  # write these caches (they are keyed to the release branch and only the
+  # publish path runs them), and Chris is the only pusher. Dropping the cache
+  # costs minutes per release. Revisit if a second committer appears.
+  cache-poisoning:
+    ignore:
+      - release.yml
+      - nightly.yml
+      - private-beta-release.yml
